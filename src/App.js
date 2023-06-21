@@ -2,6 +2,19 @@
 import React, { useState, useEffect, useRef } from 'react'
 
 function App() {
+  const [userInput, setUserInput] = useState('')
+  const [conversationArr, setConversationArr] = useState([])
+  const [hideTranslation, setHideTranslation] = useState('true')
+
+  useEffect(() => { 
+    setConversationArr(()=>[
+      {
+        role: 'system',
+        content:''
+      },
+    ])
+  },[])
+
   return (
       <div className="flex justify-center items-center h-screen bg-gray-200">
         <div className="flex w-2/5 h-2/3 bg-white rounded-lg shadow-lg">
