@@ -15,6 +15,15 @@ function App() {
     ])
   },[])
 
+  const handleInputChange = (event) => {
+    setUserInput(event.target.value)
+  }
+
+  const toggleTranslation = () => {
+    setHideTranslation(!hideTranslation)
+  }
+  
+  
   return (
       <div className="flex justify-center items-center h-screen bg-gray-200">
         <div className="flex w-2/5 h-2/3 bg-white rounded-lg shadow-lg">
