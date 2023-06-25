@@ -1,57 +1,74 @@
 import React, { useState, useEffect, useRef  } from 'react'
-import { FaBomb } from 'react-icons/fa';
+import { FaBomb, FaRegStickyNote } from 'react-icons/fa';
 
 function App() {
   const [userInput, setUserInput] = useState('')
   const [conversationObj, setConversationObj] = useState({})
-  const [hideTranslation, setHideTranslation] = useState('true')
+  const [hideTranslation, setHideTranslation] = useState(true)
   // const [chosenLanguage, setchosenLanguage] = useState('')
   const [isLoading,setIsLoading] = useState(false)
   const [selectedConversationId, setselectedConversationId] = useState(null)
+  const [creatingNewchat, setCreatingNewChat] = useState(true)
+  const [newChatArr, setNewChatArr] = useState([])
 
   // console.log(conversationObj[selectedConversationId].messages)
-  // console.log(`The current selectedID is ${selectedConversationId}`)
+
   useEffect(() => {
     setConversationObj([
-      {
-        id: 'Chinese',
-        messages: [
-          { role: 'user', content: 'Hola!' },
-          { role: 'user', content: '你好吗？' },
-          { role: 'assistant', content: '我很好！!' },
-          { role: 'user', content: 'How are you?' },
-        ],
-      },
-      {
-        id: 'Japanese',
-        messages: [
-          { role: 'user', content: 'Hola!' },
-          { role: 'user', content: 'おはよう！!' },
-          { role: 'assistant', content: 'こんにちは！ 今日はなんか手伝うことある？' },
-          { role: 'user', content: '元気ですか？' },
-        ],
-      },
-      {
-        id: 'Spanish',
-        messages: [
-          { role: 'user', content: 'Hola!' },
-          { role: 'user', content: 'Hola!' },
-          { role: 'assistant', content: '¡Hola! ¿En qué puedo ayudarte hoy?' },
-        ],
-      },
-    ])
-    console.log(conversationObj)
+      // {
+      //   id: 'Chinese',
+      //   messages: [
+      //     { role: 'user', content: 'Hola!' },
+      //     { role: 'user', content: '你好吗？' },
+      //     { role: 'assistant', content: '我很好！!' },
+      //     { role: 'user', content: 'How are you?' },
+      //   ],
+      // },
+      // {
+      //   id: 'Japanese',
+      //   messages: [
+      //     { role: 'user', content: 'Hola!' },
+      //     { role: 'user', content: 'おはよう！!' },
+      //     { role: 'assistant', content: 'こんにちは！ 今日はなんか手伝うことある？' },
+      //     { role: 'user', content: '元気ですか？' },
+      //   ],
+      // },
+      // {
+      //   id: 'Spanish',
+      //   messages: [
+      //     { role: 'user', content: 'Hola!' },
+      //     { role: 'user', content: 'Hola!' },
+      //     { role: 'assistant', content: '¡Hola! ¿En qué puedo ayudarte hoy?' },
+      //   ],
+      // },
+    ]
+    )
     setselectedConversationId(0)
+    newChat()
   },[])
 
-  const clearandSetPrompt = () => {
-    setConversationObj([
-      {
-        role: 'system',
-        content: 'You are a friendly and helpful bilingual assistant capable of responding in both English and Japanese. Separate your responses with "/n/". For example: "こんにちは！ 今日はなんか手伝うことある？ /n/ Hello! How can I help you today?"'
-      },
-    ])
+  const clearSelectedChat = () => {
+    setConversationObj((prevConversationObj) => {
+      const updatedConversationObj = { ...prevConversationObj }
+      delete updatedConversationObj[selectedConversationId]
+      return updatedConversationObj
+    })
+    // if (setConversationObj && !createNewChat) {
+    //   createNewChat()
+    // }
   }
+
+  const languageMessage = { 
+    japanese: `こんにちは！ 今日はなんか手伝うことある？`,
+    spanish: `¡Hola! ¿En qué puedo ayudarte hoy?`,
+    chinese: `你好吗？`
+  }
+
+  // {
+  //   role: 'system',
+  //   content: 'You are a friendly and helpful bilingual assistant capable of responding in both English and Japanese. Separate your responses with "/n/". For example: "こんにちは！ 今日はなんか手伝うことある？ /n/ Hello! How can I help you today?"'
+  // },
+
   // const chooseLanguage = () => {
   //   setchosenLanguage(userInput)
   //   setUserInput('')
@@ -72,42 +89,102 @@ function App() {
     setUserInput(event.target.value)
   }
 
+  const newChat = () => {
+    setCreatingNewChat(true)
+    setNewChatArr( 
+      [
+        {
+          role: 'system',
+          content: "In this current installation, the bot only provides Chinese, Japanese, or Spanish. Please type one of these languages to get started."
+        }
+      ]
+    )
+  }
+
   const toggleTranslation = () => {
     setHideTranslation(!hideTranslation)
     scrollToBottom()
   }
 
+  const createNewChat = (language) => {
+    setConversationObj((prevConversationObj) => {
+      const updatedConversationObj = {
+        ...prevConversationObj,
+        [language]: {
+          id: language,
+          messages: [
+            {
+              role: 'system',
+              content: `You are a friendly and helpful bilingual assistant capable of responding in both ${language} and English. Make sure English is always after ${language} Separate your responses with /n/ For example: ${languageMessage[language]} /n/ How can I help you today?`,
+            },
+            {
+              role: 'assistant',
+              content: `${languageMessage[language]}`,
+            },
+          ],
+        },
+      }
+      handleConversationClick(language)
+      return updatedConversationObj
+    })
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault()
     if (userInput) {
-      const newMessage = {
-        role: 'user',
-        content: userInput,
-      }
-      setConversationObj((prevConversationObj) => {
-        const updatedConversationObj = { ...prevConversationObj }
-        const selectedConversation = updatedConversationObj[selectedConversationId]
-        const updatedMessages = [...selectedConversation.messages, newMessage]
-        return {
-          ...updatedConversationObj,
-          [selectedConversationId]: {
-            ...selectedConversation,
-            messages: updatedMessages,
-          },
+      { 
+        if (creatingNewchat){
+        const newMessage = {
+            role: 'user',
+            content: userInput
+          }
+          const updatedConversation = [...newChatArr,newMessage]
+          setNewChatArr(updatedConversation)
+
+          const desireLanguages = ['chinese','japanese','spanish']
+          if (desireLanguages.includes(userInput.toLowerCase())){
+            setCreatingNewChat(false)
+            createNewChat(userInput)
+            setNewChatArr([])
+          } else {
+            setNewChatArr([
+              ...updatedConversation,
+              { role: 'system', content: 'Please try again.' },
+            ])
+          }
+      } else{
+        const newMessage = {
+          role: 'user',
+          content: userInput,
         }
-      })
+        const updatedMessages = [...conversationObj[selectedConversationId].messages, newMessage];
+          setConversationObj({
+            ...conversationObj,
+            [selectedConversationId]: {
+              ...conversationObj[selectedConversationId],
+              messages: updatedMessages,
+            }
+          })
+        fetchReply(updatedMessages)
+        }
+
+      }
       setUserInput('')
     }
   }
 
+  useEffect(() => {
+    console.log(conversationObj);
+  }, [conversationObj])
+
   const fetchReply = async (conversation) => {
     try {
       setIsLoading(true)
-      const apiConversation = conversation.map(({ role, content }) => ({ role, content }));
+      const apiConversation = conversation.map(({ role, content }) => ({ role, content }))
       const response = await fetch("https://api.openai.com/v1/chat/completions",{
         method: "POST",
         headers: {
-          "Authorization": `Bearer sk-`,
+          "Authorization": `Bearer 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`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
@@ -117,16 +194,21 @@ function App() {
       })
       const data = await response.json()
       const apiResponseContent = data.choices[0].message.content
-      console.log(apiResponseContent)
-      const [JapaneseResponse, englishResponse] = apiResponseContent.split('/n/').map(response => response.trim());
+      const [nonEnglishResponse, englishResponse] = apiResponseContent.split('/n/').map(response => response.trim())
       const updatedConversationBot = [
         ...conversation,
-        { role: 'assistant', content: JapaneseResponse, language: 'Japanese' },
+        { role: 'assistant', content: nonEnglishResponse, language: `${selectedConversationId}` },
         { role: 'assistant', content: englishResponse, language: 'English' }
       ]
-      setConversationObj(updatedConversationBot)
-      console.log(updatedConversationBot)
-    } catch (error) {
+      console.log(conversationObj[selectedConversationId].messages)
+      setConversationObj(prevConversationObj => ({
+        ...prevConversationObj,
+        [selectedConversationId]: {
+          ...prevConversationObj[selectedConversationId],
+          messages: updatedConversationBot
+        }
+      }))
+      } catch (error) {
       console.error('Error:', error)
     } finally {
       setIsLoading(false)
@@ -134,12 +216,8 @@ function App() {
   }
 
   const handleConversationClick = (conversationId) => {
-    console.log(`${conversationId} HELLO`)
-    setselectedConversationId(conversationId);
-  }
-
-  const clearChat = () => {
-    clearandSetPrompt()
+    setCreatingNewChat(false)
+    setselectedConversationId(conversationId)
   }
 
   const messagesEndRef = useRef(null)
@@ -148,13 +226,19 @@ function App() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }
   
-  useEffect(scrollToBottom, [conversationObj, hideTranslation]);
+  useEffect(scrollToBottom, [conversationObj, hideTranslation, newChatArr])
 
   return (
       <div className="flex justify-center items-center h-screen bg-gray-200">
         <div className="flex w-2/5 h-2/3 bg-white rounded-lg shadow-lg">
           <div className="flex flex-col h-full w-1/2 rounded-l-lg  bg-gray-200">
-              <div className="flex justify-center items-center h-1/6 bg-gray-300 rounded-tl-lg">Names of Contacts</div>
+              <div className="justify-center items-center grid grid-cols-4 h-1/6 bg-gray-300 rounded-tl-lg">
+                <div className="col-span-3 flex justify-center items-center ml-6">Contacts</div>
+                  <button onClick={newChat} className="col-span-1 flex flex-col justify-center items-center text-xl">
+                  <FaRegStickyNote/>
+                  <div className="text-xs">New Chat</div>
+                  </button>
+              </div>
               {Object.keys(conversationObj).map((conversationId) => {
                 return (
                   <button className="p-4 border border-gray-500"
@@ -167,14 +251,25 @@ function App() {
           <div className="flex flex-col  overflow-y-auto h-full w-full rounded-r-lg  bg-gray-100">
             <div className="justify-center items-center grid grid-cols-4 h-1/6 bg-gray-400 rounded-tr-lg">
               <div className="col-span-3 flex justify-center items-center ml-20">Current Speaker</div>
-              <button onClick={clearChat} className="col-span-1 flex flex-col justify-center items-center text-xl">
+              <button onClick={clearSelectedChat} className="col-span-1 flex flex-col justify-center items-center text-xl">
                 <FaBomb/>
                 <div className="text-xs">Clear Chat</div>
                 </button>
             </div>
             <div className="flex flex-col overflow-y-auto" style={{ maxHeight: 'calc(100% - 1/6*100vh)' }}>
-            {conversationObj[selectedConversationId] && conversationObj[selectedConversationId].messages.map((message, index) => {
-                if (index === 0) return null;
+            {creatingNewchat && newChatArr.map((message, index) => {
+                return (
+                    <div 
+                      key={index} 
+                      className={`${message.role === "user" ? " text-[#69A9DD] self-end ml-auto" : "flex flex-col items-start text-[#6C72C6]"}
+                        border border-[#989CD7] p-4 m-2 ml-4 rounded-md break-words inline-flex`}>
+                        <div className="">{message.content}</div>                    
+                   </div> 
+                )
+              })}
+            
+            {conversationObj[selectedConversationId] && !creatingNewchat && conversationObj[selectedConversationId].messages.map((message, index) => {
+                if (index === 0) return null
 
                 return (
                   <div
@@ -189,7 +284,7 @@ function App() {
                   >
                     <div className="text-left">{message.content}</div>
                     {message.role === 'assistant' &&
-                      message.language === 'Japanese' && (
+                      message.language === `${selectedConversationId}` && (
                         <button
                           onClick={() => {
                             toggleTranslation();
