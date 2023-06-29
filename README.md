@@ -2,6 +2,10 @@
 
 I made this project in my pursuit to become a polyglot, as the world gets more connected I want to be able to practice my language skills, starting with an AI.
 
+Third iteration:
+Full functioning new chat using an object, API call per array in the said object, also allow the user to choose which language (scalable) and beginning AI prompt.
+
+![Recording_2023-06-25_at_17 30 52](https://github.com/gwilliamleung/chattranslate/assets/103716258/14e91c08-c72f-4e3d-a0e6-daec573c5aeb)
 
 Second iteration:
 Created different bots (a template) so users can choose between different languages, added a clear chat button to clear the current chat
