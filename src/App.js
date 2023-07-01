@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef  } from 'react'
-import { FaBomb, FaRegStickyNote } from 'react-icons/fa';
+import { FaBomb, FaRegStickyNote, FaUser, FaSignOutAlt } from 'react-icons/fa';
 
 function App() {
   const [userInput, setUserInput] = useState('')
@@ -61,7 +61,7 @@ function App() {
   const languageMessage = { 
     japanese: `こんにちは！ 今日はなんか手伝うことある？`,
     spanish: `¡Hola! ¿En qué puedo ayudarte hoy?`,
-    chinese: `你好吗？`
+    chinese: `您好，今天需要什么帮助吗？`
   }
 
   // {
@@ -311,7 +311,15 @@ function App() {
             </form>
             
           </div>
+        <div className="flex justify-center items-center grid grid-cols-4 h-1/6 bg-gray-300 rounded-bl-lg">
+          <button className="col-span-1 flex flex-col justify-center items-center text-xl">
+            <FaUser />
+          </button>
+          <button className="col-span-1 flex flex-col justify-center items-center text-xl">
+            <FaSignOutAlt />
+          </button>
         </div>
+      </div>
     </div>
   );
 }
