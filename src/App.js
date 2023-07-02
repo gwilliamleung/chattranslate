@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef  } from 'react'
 import { FaBomb, FaRegStickyNote, FaUser, FaSignOutAlt } from 'react-icons/fa';
 import { auth, db } from "../firebase";
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 function App() {
   const [userInput, setUserInput] = useState('')
