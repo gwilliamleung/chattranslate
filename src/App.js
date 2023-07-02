@@ -311,6 +311,7 @@ function App() {
             </form>
             
           </div>
+      </div>
         <div className="flex justify-center items-center grid grid-cols-4 h-1/6 bg-gray-300 rounded-bl-lg">
           <button className="col-span-1 flex flex-col justify-center items-center text-xl">
             <FaUser />
@@ -319,7 +320,6 @@ function App() {
             <FaSignOutAlt />
           </button>
         </div>
-      </div>
     </div>
   );
 }
