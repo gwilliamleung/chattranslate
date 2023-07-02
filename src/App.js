@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef  } from 'react'
 import { FaBomb, FaRegStickyNote, FaUser, FaSignOutAlt } from 'react-icons/fa';
+import { auth, db } from "../firebase";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 function App() {
   const [userInput, setUserInput] = useState('')
@@ -10,6 +12,9 @@ function App() {
   const [selectedConversationId, setselectedConversationId] = useState(null)
   const [creatingNewchat, setCreatingNewChat] = useState(true)
   const [newChatArr, setNewChatArr] = useState([])
+  
+  firebase.initializeApp(firebaseConfig);
+
 
   // console.log(conversationObj[selectedConversationId].messages)
 
@@ -144,7 +149,7 @@ function App() {
           const desireLanguages = ['chinese','japanese','spanish']
           if (desireLanguages.includes(userInput.toLowerCase())){
             setCreatingNewChat(false)
-            createNewChat(userInput)
+            createNewChat(userInput.toLowerCase())
             setNewChatArr([])
           } else {
             setNewChatArr([
@@ -312,11 +317,11 @@ function App() {
             
           </div>
       </div>
-        <div className="flex justify-center items-center grid grid-cols-4 h-1/6 bg-gray-300 rounded-bl-lg">
-          <button className="col-span-1 flex flex-col justify-center items-center text-xl">
+        <div className="fixed top-0 right-0 h-screen bg-gray-300">
+          <button className="col-span-1 flex flex-col m-8 justify-center items-center text-xl">
             <FaUser />
           </button>
-          <button className="col-span-1 flex flex-col justify-center items-center text-xl">
+          <button className="col-span-1 flex flex-col m-8 justify-center items-center text-xl">
             <FaSignOutAlt />
           </button>
         </div>
