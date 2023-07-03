@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef  } from 'react'
 import { FaBomb, FaRegStickyNote, FaUser, FaSignOutAlt } from 'react-icons/fa';
-import { auth, db } from "../firebase";
+import { auth, db } from './firebase';
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 
 function App() {
   const [userInput, setUserInput] = useState('')
@@ -11,9 +12,29 @@ function App() {
   const [selectedConversationId, setselectedConversationId] = useState(null)
   const [creatingNewchat, setCreatingNewChat] = useState(true)
   const [newChatArr, setNewChatArr] = useState([])
+  const [user,setUser] = useState({})
   
-  firebase.initializeApp(firebaseConfig);
 
+  function signUp(email,password){
+    createUserWithEmailAndPassword(auth,email,password)
+  }
+
+  function logIn(email,password){
+    return signInWithEmailAndPassword(auth,email,password)
+  }
+  
+  function logOut(){
+    return signOut(auth)
+  }
+
+  useEffect(()=>{
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser)
+    })
+    return () => { 
+      unsubscribe()
+    }
+  })
 
   // console.log(conversationObj[selectedConversationId].messages)
 
