@@ -50,7 +50,7 @@ const Login = () => {
                   </button>
                   {error && <span className="flex justify-center">{error}</span>}
                   <Link to="/Signup" className="flex justify-center text-xl m-2">
-                   No account? Sign up
+                   No account? Sign up here
                   </Link>
                 </form>
             </div>
