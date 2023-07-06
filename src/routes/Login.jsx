@@ -27,32 +27,31 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center rounded-t-lg h-screen bg-gray-200">
-        <div className="flex w-2/5 h-2/3 bg-white rounded-t-lg shadow-lg">
-            <div className="flex flex-col w-full bg-gray-200 rounded-t-lg">
-                <div className="justify-center items-center grid grid-cols-4 h-1/6 bg-gray-300 rounded-tlg">
-                <div className="col-span-3 flex justify-center items-center ml-6 text-lg font-bold">Chat Translate</div>
-                </div>
-                <form onSubmit={handleSubmit} className="flex flex-col gap-1">
+    <div className="flex justify-center items-center h-screen bg-gray-200">
+      <div className="flex flex-col w-2/5 h-2/3 rounded-lg ">
+        <div className="flex flex-col h-full border rounded-lg bg-gray-300">
+            <div className="flex justify-center items-center bg-gray-400 text-xl h-1/6 border-0 rounded-tr-lg rounded-tl-lg">Chat Translate </div>
+              <form onSubmit={handleSubmit} className="flex rounded-b-lg  flex-col p-4 shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <input
                     onChange={(e) => setEmail(e.target.value)}
-                    className="border border-gray-400"
+                    className="border rounded-lg m-2 p-4"
                     type="text"
                     placeholder="Username"
                 />
                 <input
                     onChange={(e) => setPassword(e.target.value)}
-                    className="border border-gray-400 rounded px-2 py-1"
+                    className="border rounded-lg m-2 p-4"
                     type="password"
                     placeholder="Password"
                 />
-                <button className="bg-blue-500 text-white font-bold py-2 rounded">
-                    Sign In
-                </button>
-                {error && <span className="text-red-500">{error}</span>}
-                <Link to="/Signup" className="flex justify-center text-blue-500 cursor-pointer text-sm">
-                    No account? Sign up
-                </Link>
+                  <button
+                    className="text-xl m-2">
+                      Login
+                  </button>
+                  {error && <span className="flex justify-center">{error}</span>}
+                  <Link to="/Signup" className="flex justify-center text-xl m-2">
+                   No account? Sign up
+                  </Link>
                 </form>
             </div>
         </div>

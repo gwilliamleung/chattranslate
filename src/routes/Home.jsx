@@ -13,34 +13,8 @@ const Home = () => {
     const [selectedConversationId, setselectedConversationId] = useState(null)
     const [creatingNewchat, setCreatingNewChat] = useState(true)
     const [newChatArr, setNewChatArr] = useState([])
-    const [user,setUser] = useState({})
-    const navigate = useNavigate();
-
-    
+    const [user,setUser] = useState({})    
   
-
-    
-    function signUp(email,password){
-      createUserWithEmailAndPassword(auth,email,password)
-    }
-  
-    function logIn(email,password){
-      return signInWithEmailAndPassword(auth,email,password)
-    }
-    
-    function logOut(){
-      return signOut(auth)
-    }
-  
-    const handleLogout = async () => {
-        try{
-            await logOut()
-            navigate('/signup')
-        } catch(error){
-            console.log(error)
-        }
-    }
-
     useEffect(()=>{
       const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
         setUser(currentUser)
@@ -52,6 +26,8 @@ const Home = () => {
   
     // console.log(conversationObj[selectedConversationId].messages)
   
+    
+
     useEffect(() => {
       setConversationObj([
         // {
@@ -223,7 +199,7 @@ const Home = () => {
         const response = await fetch("https://api.openai.com/v1/chat/completions",{
           method: "POST",
           headers: {
-            "Authorization": `Bearer sk-`,
+            "Authorization": `Bearer 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`,
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
@@ -351,16 +327,6 @@ const Home = () => {
             
           </div>
       </div>
-        <div className="fixed top-0 right-0 h-screen bg-gray-300">
-          <button className="col-span-1 flex flex-col m-8 justify-center items-center text-xl">
-            <FaUser />
-          </button>
-          <button 
-            onClick={handleLogout}
-            className="col-span-1 flex flex-col m-8 justify-center items-center text-xl">
-            <FaSignOutAlt />
-          </button>
-        </div>
     </div>
   )
 }
