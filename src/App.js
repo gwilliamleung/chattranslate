@@ -14,6 +14,7 @@ const App = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
+      <div className="bg-gray-50">hi</div>
     </Router>    
   )
 }
