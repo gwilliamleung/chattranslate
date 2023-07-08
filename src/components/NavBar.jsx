@@ -37,7 +37,7 @@ const NavBar = () => {
         <button
             onClick={test}
         >TEST</button>
-  </div>
+    </div>
   
   )
 }

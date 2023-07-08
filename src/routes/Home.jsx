@@ -314,6 +314,7 @@ const Home = () => {
             </div>
             <form className="mt-auto flex s items-center" onSubmit={handleSubmit}>
               <input
+                id="usertext"
                 type="text"
                 className="w-[90%] mt-auto h-10 pl-2"
                 value={userInput}

@@ -37,12 +37,14 @@ const Signup = () => {
                 <div className="flex justify-center items-center bg-gray-400 text-xl h-1/6 border-0 rounded-tr-lg rounded-tl-lg">Chat Translate </div>
                 <form onSubmit={handleSubmit} className="flex rounded-b-lg  flex-col p-4 shadow-md rounded px-8 pt-6 pb-8 mb-4">
                   <input
+                      id="susername"
                       onChange={(e) => setEmail(e.target.value)}
                       className="border rounded-lg m-2 p-4"
                       type="text"
                       placeholder="Username"
                   />
                 <input
+                    id="spassword"
                     onChange={(e) => setPassword(e.target.value)}
                     className="border rounded-lg m-2 p-4"
                     type="password"
